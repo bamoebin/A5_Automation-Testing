@@ -12,6 +12,8 @@ import org.junit.Assert;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.edge.EdgeDriver;
+import org.openqa.selenium.edge.EdgeOptions;
 import pages.LoginPage;
 import pages.MyCoursePage;
 
@@ -23,13 +25,31 @@ public class MyCourseSteps {
 
     @Before
     public void setUp() {
-        WebDriverManager.chromedriver().setup();
-        ChromeOptions options = new ChromeOptions();
-        options.addArguments("--start-maximized");
-        driver = new ChromeDriver(options);
+        driver = createDriver();
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(2));
         loginPage = new LoginPage(driver);
         myCoursePage = new MyCoursePage(driver);
+    }
+
+    private WebDriver createDriver() {
+        String browser = System.getProperty("browser", "chrome").toLowerCase();
+        switch (browser) {
+            case "edge":
+                String edgeDriverPath = System.getProperty(
+                        "edge.driver.path",
+                        "C:\\Program Files\\edgedriver_win32\\msedgedriver.exe"
+                );
+                System.setProperty("webdriver.edge.driver", edgeDriverPath);
+                EdgeOptions edgeOptions = new EdgeOptions();
+                edgeOptions.addArguments("--start-maximized");
+                return new EdgeDriver(edgeOptions);
+            case "chrome":
+            default:
+                WebDriverManager.chromedriver().setup();
+                ChromeOptions chromeOptions = new ChromeOptions();
+                chromeOptions.addArguments("--start-maximized");
+                return new ChromeDriver(chromeOptions);
+        }
     }
 
     @After
