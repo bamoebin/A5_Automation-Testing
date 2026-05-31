@@ -56,13 +56,6 @@
         </dependency>
     </dependencies>
 
-    <repositories>
-        <repository>
-            <id>extentreports</id>
-            <url>https://repo.extentreports.com</url>
-        </repository>
-    </repositories>
-
     <build>
         <plugins>
             <plugin>
