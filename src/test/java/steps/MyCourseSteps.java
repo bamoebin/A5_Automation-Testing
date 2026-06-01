@@ -66,6 +66,13 @@ public class MyCourseSteps {
         loginPage.waitForDashboard();
     }
 
+    @Given("user sudah login sebagai pelajar untuk melihat tab selesai")
+    public void userAlreadyLoginAsStudentForCompletedTab() {
+        loginPage.open(baseUrl);
+        loginPage.login("satria@example.com", "Kitten026");
+        loginPage.waitForDashboard();
+    }
+
     @When("user membuka menu Kursus Saya")
     public void openMyCourseMenu() {
         myCoursePage.openMyCourse();
@@ -79,5 +86,15 @@ public class MyCourseSteps {
     @And("muncul pesan kosong kursus")
     public void verifyEmptyMessage() {
         Assert.assertEquals("Belum ada kursus yang sedang dijalani.", myCoursePage.getEmptyMessage());
+    }
+
+    @When("user membuka tab Selesai")
+    public void openCompletedTab() {
+        myCoursePage.openCompletedTab();
+    }
+
+    @Then("muncul pesan kosong kursus selesai")
+    public void verifyCompletedEmptyMessage() {
+        Assert.assertEquals("Belum ada kursus yang selesai.", myCoursePage.getCompletedEmptyMessage());
     }
 }

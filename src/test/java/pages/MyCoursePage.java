@@ -18,6 +18,12 @@ public class MyCoursePage {
             + "contains(normalize-space(),'Dalam Progres')]");
     private final By emptyMessageBy = By.xpath(
         "//p[contains(normalize-space(),'Belum ada kursus yang sedang dijalani')]");
+    private final By completedTabBy = By.id("completed-tab");
+    private final By completedTabAltBy = By.xpath(
+        "//*[self::a or self::button][contains(@class,'nav-link') and "
+            + "contains(normalize-space(),'Selesai')]");
+    private final By completedEmptyMessageBy = By.xpath(
+        "//p[contains(normalize-space(),'Belum ada kursus yang selesai')]");
 
     public MyCoursePage(WebDriver driver) {
         this.driver = driver;
@@ -39,8 +45,43 @@ public class MyCoursePage {
         return element.getText().trim();
     }
 
+    public void openCompletedTab() {
+        WebElement tab = wait.until(driver -> findCompletedTab());
+        tab.click();
+        wait.until(driver -> isCompletedTabActive());
+    }
+
+    public boolean isCompletedTabActive() {
+        WebElement tab = findCompletedTab();
+        if (tab == null) {
+            return false;
+        }
+        String classes = tab.getAttribute("class");
+        String selected = tab.getAttribute("aria-selected");
+        return (classes != null && classes.contains("active")) || "true".equalsIgnoreCase(selected);
+    }
+
+    public String getCompletedEmptyMessage() {
+        WebElement element = wait.until(ExpectedConditions.visibilityOfElementLocated(completedEmptyMessageBy));
+        return element.getText().trim();
+    }
+
     private WebElement findInProgressTab() {
         List<By> locators = List.of(inProgressTabBy, inProgressTabAltBy);
+        for (By locator : locators) {
+            List<WebElement> elements = driver.findElements(locator);
+            if (!elements.isEmpty()) {
+                WebElement element = elements.get(0);
+                if (element.isDisplayed()) {
+                    return element;
+                }
+            }
+        }
+        return null;
+    }
+
+    private WebElement findCompletedTab() {
+        List<By> locators = List.of(completedTabBy, completedTabAltBy);
         for (By locator : locators) {
             List<WebElement> elements = driver.findElements(locator);
             if (!elements.isEmpty()) {
