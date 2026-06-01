@@ -3,6 +3,7 @@ package pages;
 import java.time.Duration;
 import java.util.List;
 import java.util.stream.Collectors;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -31,6 +32,13 @@ public class LoginPage {
 
     @FindBy(css = "li.nav-name.dropdown")
     private WebElement navUser;
+
+        private final By userMenuTriggerBy = By.cssSelector(
+            "li.nav-name.dropdown a, li.nav-name.dropdown button, li.nav-name.dropdown"
+        );
+        private final By logoutButtonBy = By.xpath(
+            "//button[contains(@class,'dropdown-button') and contains(normalize-space(),'Keluar')]"
+        );
 
     public LoginPage(WebDriver driver) {
         this.driver = driver;
@@ -65,5 +73,30 @@ public class LoginPage {
     public boolean isUserNameVisible() {
         wait.until(ExpectedConditions.visibilityOf(navUser));
         return navUser.isDisplayed();
+    }
+
+    public void openUserMenu() {
+        WebElement trigger = wait.until(driver -> findFirstDisplayed(userMenuTriggerBy));
+        trigger.click();
+        wait.until(ExpectedConditions.visibilityOfElementLocated(logoutButtonBy));
+    }
+
+    public void logout() {
+        wait.until(ExpectedConditions.elementToBeClickable(logoutButtonBy)).click();
+    }
+
+    public boolean isLoginFormVisible() {
+        wait.until(ExpectedConditions.visibilityOf(emailInput));
+        return emailInput.isDisplayed();
+    }
+
+    private WebElement findFirstDisplayed(By locator) {
+        List<WebElement> elements = driver.findElements(locator);
+        for (WebElement element : elements) {
+            if (element.isDisplayed()) {
+                return element;
+            }
+        }
+        return null;
     }
 }
