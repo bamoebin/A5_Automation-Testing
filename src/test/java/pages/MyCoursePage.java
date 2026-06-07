@@ -65,11 +65,17 @@ public class MyCoursePage {
      */
 
     public void openMyCourse() {
-        wait.until(ExpectedConditions.elementToBeClickable(myCourseMenuBy))
-            .click();
 
-        wait.until(driver -> findInProgressTab());
-    }
+        wait.until(
+            ExpectedConditions.elementToBeClickable(myCourseMenuBy)
+        ).click();
+
+        wait.until(
+        ExpectedConditions.presenceOfElementLocated(
+            inProgressTabBy
+        )
+    );
+}
 
     public boolean isInProgressTabActive() {
         String classes = findInProgressTab().getAttribute("class");
