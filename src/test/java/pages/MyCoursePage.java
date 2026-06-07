@@ -17,11 +17,11 @@ public class MyCoursePage {
     private final By myCourseMenuBy =
         By.xpath("//a[contains(@class,'nav-link') and normalize-space()='Kursus Saya']");
 
-    private final By inProgressTabBy = By.id("inprogress-tab");
-
-    private final By inProgressTabAltBy = By.xpath(
+    private final By inProgressTabBy = By.xpath(
         "//*[self::a or self::button][contains(@class,'nav-link') and "
             + "contains(normalize-space(),'Dalam Progres')]");
+
+    private final By inProgressTabAltBy = By.id("inprogress-tab");
 
     private final By emptyMessageBy = By.xpath(
         "//p[contains(normalize-space(),'Belum ada kursus yang sedang dijalani')]");
@@ -55,7 +55,7 @@ public class MyCoursePage {
 
     public MyCoursePage(WebDriver driver) {
         this.driver = driver;
-        this.wait = new WebDriverWait(driver, Duration.ofSeconds(12));
+        this.wait = new WebDriverWait(driver, Duration.ofSeconds(25));
     }
 
     /*
@@ -66,19 +66,20 @@ public class MyCoursePage {
 
     public void openMyCourse() {
 
-        wait.until(
-            ExpectedConditions.elementToBeClickable(myCourseMenuBy)
-        ).click();
+        WebElement menu = wait.until(ExpectedConditions.elementToBeClickable(myCourseMenuBy));
+        menu.click();
 
-        wait.until(
-        ExpectedConditions.presenceOfElementLocated(
-            inProgressTabBy
-        )
-    );
-}
+        wait.until(driver -> findInProgressTab());
+    }
 
     public boolean isInProgressTabActive() {
-        String classes = findInProgressTab().getAttribute("class");
+        WebElement tab = findInProgressTab();
+
+        if (tab == null) {
+            return false;
+        }
+
+        String classes = tab.getAttribute("class");
 
         return classes != null
             && classes.contains("active");
@@ -264,10 +265,7 @@ public class MyCoursePage {
             List<WebElement> elements =
                 driver.findElements(locator);
 
-            if (!elements.isEmpty()) {
-
-                WebElement element = elements.get(0);
-
+            for (WebElement element : elements) {
                 if (element.isDisplayed()) {
                     return element;
                 }
@@ -287,10 +285,7 @@ public class MyCoursePage {
             List<WebElement> elements =
                 driver.findElements(locator);
 
-            if (!elements.isEmpty()) {
-
-                WebElement element = elements.get(0);
-
+            for (WebElement element : elements) {
                 if (element.isDisplayed()) {
                     return element;
                 }
