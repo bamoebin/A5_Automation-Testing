@@ -6,7 +6,6 @@ import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
-import io.github.bonigarcia.wdm.WebDriverManager;
 import java.time.Duration;
 import org.junit.Assert;
 import org.openqa.selenium.WebDriver;
@@ -29,24 +28,9 @@ public class LogoutSteps {
     }
 
     private WebDriver createDriver() {
-        String browser = System.getProperty("browser", "chrome").toLowerCase();
-        switch (browser) {
-            case "edge":
-                String edgeDriverPath = System.getProperty(
-                        "edge.driver.path",
-                        "C:\\Program Files\\edgedriver_win32\\msedgedriver.exe"
-                );
-                System.setProperty("webdriver.edge.driver", edgeDriverPath);
-                EdgeOptions edgeOptions = new EdgeOptions();
-                edgeOptions.addArguments("--start-maximized");
-                return new EdgeDriver(edgeOptions);
-            case "chrome":
-            default:
-                WebDriverManager.chromedriver().setup();
-                ChromeOptions chromeOptions = new ChromeOptions();
-                chromeOptions.addArguments("--start-maximized");
-                return new ChromeDriver(chromeOptions);
-        }
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.addArguments("--start-maximized");
+        return new ChromeDriver(chromeOptions);
     }
 
     @After

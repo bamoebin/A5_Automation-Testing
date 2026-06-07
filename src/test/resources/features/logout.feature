@@ -1,6 +1,6 @@
 Feature: Logout
 
-  @logout
+  @logout @Satria
   Scenario: Logout pelajar
     Given user sudah login sebagai pelajar
     When user membuka menu akun

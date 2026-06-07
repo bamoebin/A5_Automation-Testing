@@ -33,12 +33,16 @@ public class LoginPage {
     @FindBy(css = "li.nav-name.dropdown")
     private WebElement navUser;
 
-        private final By userMenuTriggerBy = By.cssSelector(
-            "li.nav-name.dropdown a, li.nav-name.dropdown button, li.nav-name.dropdown"
-        );
-        private final By logoutButtonBy = By.xpath(
-            "//button[contains(@class,'dropdown-button') and contains(normalize-space(),'Keluar')]"
-        );
+    private final By userMenuTriggerBy = By.cssSelector(
+        "li.nav-name.dropdown a, li.nav-name.dropdown button, li.nav-name.dropdown"
+    );
+
+    private final By logoutButtonBy = By.xpath(
+        "//button[contains(@class,'dropdown-button') and contains(normalize-space(),'Keluar')]"
+    );
+
+    // Tambahan untuk validasi login gagal
+    private final By errorPopupBy = By.className("swal2-popup");
 
     public LoginPage(WebDriver driver) {
         this.driver = driver;
@@ -54,8 +58,10 @@ public class LoginPage {
     public void login(String email, String password) {
         wait.until(ExpectedConditions.elementToBeClickable(emailInput)).clear();
         emailInput.sendKeys(email);
+
         passwordInput.clear();
         passwordInput.sendKeys(password);
+
         loginButton.click();
     }
 
@@ -65,6 +71,7 @@ public class LoginPage {
 
     public List<String> getNavbarTexts() {
         wait.until(ExpectedConditions.visibilityOf(navbar));
+
         return navbarLinks.stream()
                 .map(element -> element.getText().trim())
                 .collect(Collectors.toList());
@@ -78,11 +85,16 @@ public class LoginPage {
     public void openUserMenu() {
         WebElement trigger = wait.until(driver -> findFirstDisplayed(userMenuTriggerBy));
         trigger.click();
-        wait.until(ExpectedConditions.visibilityOfElementLocated(logoutButtonBy));
+
+        wait.until(
+            ExpectedConditions.visibilityOfElementLocated(logoutButtonBy)
+        );
     }
 
     public void logout() {
-        wait.until(ExpectedConditions.elementToBeClickable(logoutButtonBy)).click();
+        wait.until(
+            ExpectedConditions.elementToBeClickable(logoutButtonBy)
+        ).click();
     }
 
     public boolean isLoginFormVisible() {
@@ -90,13 +102,33 @@ public class LoginPage {
         return emailInput.isDisplayed();
     }
 
+    // Tambahan untuk skenario login gagal
+    public boolean isLoginErrorDisplayed() {
+        try {
+            WebElement popup = wait.until(
+                ExpectedConditions.visibilityOfElementLocated(errorPopupBy)
+            );
+
+            return popup.getText().contains("Alamat email tidak ditemukan");
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    // Tambahan untuk verifikasi redirect
+    public String getCurrentUrl() {
+        return driver.getCurrentUrl();
+    }
+
     private WebElement findFirstDisplayed(By locator) {
         List<WebElement> elements = driver.findElements(locator);
+
         for (WebElement element : elements) {
             if (element.isDisplayed()) {
                 return element;
             }
         }
+
         return null;
     }
 }

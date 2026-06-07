@@ -2,24 +2,29 @@ package steps;
 
 import io.cucumber.java.After;
 import io.cucumber.java.Before;
+import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
-import io.github.bonigarcia.wdm.WebDriverManager;
 import java.time.Duration;
 import java.util.List;
 import org.junit.Assert;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
-import org.openqa.selenium.edge.EdgeDriver;
-import org.openqa.selenium.edge.EdgeOptions;
 import pages.LoginPage;
 
 public class LoginSteps {
+
     private WebDriver driver;
     private LoginPage loginPage;
-    private final String baseUrl = "https://polban-space.cloudias79.com/jtk-learn/";
+
+    private final String baseUrl =
+            "https://polban-space.cloudias79.com/jtk-learn/";
+
+    // digunakan oleh skenario login gagal
+    private String email;
+    private String password;
 
     @Before
     public void setUp() {
@@ -29,24 +34,9 @@ public class LoginSteps {
     }
 
     private WebDriver createDriver() {
-        String browser = System.getProperty("browser", "chrome").toLowerCase();
-        switch (browser) {
-            case "edge":
-                String edgeDriverPath = System.getProperty(
-                        "edge.driver.path",
-                        "C:\\Program Files\\edgedriver_win32\\msedgedriver.exe"
-                );
-                System.setProperty("webdriver.edge.driver", edgeDriverPath);
-                EdgeOptions edgeOptions = new EdgeOptions();
-                edgeOptions.addArguments("--start-maximized");
-                return new EdgeDriver(edgeOptions);
-            case "chrome":
-            default:
-                WebDriverManager.chromedriver().setup();
-                ChromeOptions chromeOptions = new ChromeOptions();
-                chromeOptions.addArguments("--start-maximized");
-                return new ChromeDriver(chromeOptions);
-        }
+        ChromeOptions chromeOptions = new ChromeOptions();
+        chromeOptions.addArguments("--start-maximized");
+        return new ChromeDriver(chromeOptions);
     }
 
     @After
@@ -55,6 +45,12 @@ public class LoginSteps {
             driver.quit();
         }
     }
+
+    /*
+     * ============================================================
+     * LOGIN BERHASIL
+     * ============================================================
+     */
 
     @Given("user berada di halaman login")
     public void userOnLoginPage() {
@@ -74,5 +70,49 @@ public class LoginSteps {
         Assert.assertTrue(navbar.contains("Kursus Saya"));
         Assert.assertTrue(navbar.contains("Riwayat Kuis"));
         Assert.assertTrue(loginPage.isUserNameVisible());
+    }
+
+    /*
+     * ============================================================
+     * LOGIN GAGAL
+     * ============================================================
+     */
+
+    @Given("pengguna telah berada di halaman login JTK Learn")
+    public void penggunaDiHalamanLogin() {
+        loginPage.open(baseUrl);
+    }
+
+    @When("pengguna mengisi field username dengan username tidak terdaftar {string}")
+    public void isiUsernameTidakTerdaftar(String username) {
+        this.email = username;
+    }
+
+    @And("pengguna mengisi field password dengan {string}")
+    public void isiPassword(String password) {
+        this.password = password;
+    }
+
+    @And("pengguna menekan tombol Login")
+    public void tekanTombolLogin() {
+        loginPage.login(email, password);
+    }
+
+    @Then("sistem tidak mengarahkan pengguna ke halaman dashboard")
+    public void tidakKeDashboard() {
+
+        Assert.assertFalse(
+                "User tidak boleh masuk dashboard",
+                loginPage.getCurrentUrl().contains("dashboard")
+        );
+    }
+
+    @And("sistem menampilkan notifikasi login gagal")
+    public void notifikasiLoginGagal() {
+
+        Assert.assertTrue(
+                "Notifikasi login gagal tidak muncul",
+                loginPage.isLoginErrorDisplayed()
+        );
     }
 }

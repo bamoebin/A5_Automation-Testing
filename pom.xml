@@ -14,7 +14,6 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <cucumber.version>7.20.1</cucumber.version>
         <selenium.version>4.22.0</selenium.version>
-        <webdrivermanager.version>5.8.0</webdrivermanager.version>
         <junit.version>4.13.2</junit.version>
         <extentreports.version>5.1.2</extentreports.version>
         <surefire.version>3.2.5</surefire.version>
@@ -25,11 +24,6 @@
             <groupId>org.seleniumhq.selenium</groupId>
             <artifactId>selenium-java</artifactId>
             <version>${selenium.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>io.github.bonigarcia</groupId>
-            <artifactId>webdrivermanager</artifactId>
-            <version>${webdrivermanager.version}</version>
         </dependency>
         <dependency>
             <groupId>io.cucumber</groupId>
