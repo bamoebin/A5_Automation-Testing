@@ -14,7 +14,7 @@ Feature: Kursus Saya
     And user membuka tab Selesai
     Then muncul pesan kosong kursus selesai
 
-  @TC-FR05-03 @Nieto
+  @TC-FR05-03 @Nieto @MyCourse
   Scenario: Verifikasi tampilan kartu kursus dengan Progress Bar sebagian (1–99%) pada Tab Dalam Progres
     Given pengguna berhasil login sebagai Pelajar dengan username "barba@example.com" dan password "persib123"
     And pelajar sudah mengakses sebagian materi/quiz pada kursus (progress > 0% dan < 100%)
@@ -26,7 +26,7 @@ Feature: Kursus Saya
     And kartu kursus menampilkan komponen: Gambar kursus, Nama kursus, Nama pengajar, Progress Bar terisi sebagian (nilai persentase > 0% dan < 100%)
     And kursus TIDAK muncul di Tab Selesai
 
-  @TC-FR05-05 @Nieto
+  @TC-FR05-05 @Nieto @MyCourse
   Scenario: Verifikasi tampilan kartu kursus dengan Progress Bar 100% (kursus selesai) pada Tab Selesai
     Given pengguna berhasil login sebagai Pelajar dengan username "barba@example.com" dan password "persib123"
     And pelajar sudah menyelesaikan SELURUH materi dan quiz pada minimal 1 kursus (progress = 100%)
