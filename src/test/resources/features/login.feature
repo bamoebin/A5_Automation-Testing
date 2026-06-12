@@ -6,7 +6,7 @@ Feature: Login
     When user login dengan email "farras" dan password "farras"
     Then dashboard tampil dengan navbar yang berisi menu utama dan nama akun
 
-  @TC-1.2.2 @Nieto
+  @TC-1.2.2 @Nieto @Login
   Scenario: Verifikasi login gagal dengan username yang tidak terdaftar
     Given pengguna telah berada di halaman login JTK Learn
     When pengguna mengisi field username dengan username tidak terdaftar "userTidakAda@example.com"
