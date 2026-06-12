@@ -1,11 +1,13 @@
 Feature: Kursus Saya
 
-  @Farras
-  Scenario: Kursus Saya kosong
-    Given user sudah login
-    When user membuka menu Kursus Saya
-    Then tab Dalam Progres aktif
-    And muncul pesan kosong kursus
+  @TC-FR05-01 @Farras
+  Scenario: Verifikasi pesan 'Belum ada kursus yang sedang dijalani' tampil pada Tab Dalam Progres
+    Given pengguna berhasil login sebagai Pelajar dengan akun farras
+    And kondisi pelajar belum mendaftar kursus apapun atau semua kursus yang diikuti sudah berstatus selesai
+    When user login dengan akun Pelajar dan klik menu "Kursus Saya" pada navigasi
+    And halaman berada pada Tab "Dalam Progres" sebagai tab default
+    And amati konten yang tampil
+    Then halaman Tab Dalam Progres menampilkan pesan "Belum ada kursus yang sedang dijalani"
 
   @TC-FR05-04 @Satria
   Scenario: Tab Selesai kosong

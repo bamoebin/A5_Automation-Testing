@@ -1,64 +1,53 @@
 package steps;
 
-import io.cucumber.java.After;
-import io.cucumber.java.Before;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
-import java.time.Duration;
 import org.junit.Assert;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
-import org.openqa.selenium.edge.EdgeDriver;
-import org.openqa.selenium.edge.EdgeOptions;
+import pages.DashboardPage;
 import pages.LoginPage;
+import utils.TestConfig;
 
 public class LogoutSteps {
-    private WebDriver driver;
+
     private LoginPage loginPage;
-    private final String baseUrl = "https://polban-space.cloudias79.com/jtk-learn/";
+    private DashboardPage dashboardPage;
 
-    @Before
-    public void setUp() {
-        driver = createDriver();
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(2));
-        loginPage = new LoginPage(driver);
-    }
-
-    private WebDriver createDriver() {
-        ChromeOptions chromeOptions = new ChromeOptions();
-        chromeOptions.addArguments("--start-maximized");
-        return new ChromeDriver(chromeOptions);
-    }
-
-    @After
-    public void tearDown() {
-        if (driver != null) {
-            driver.quit();
+    private LoginPage getLoginPage() {
+        if (loginPage == null) {
+            loginPage = new LoginPage(Hooks.getDriver());
         }
+        return loginPage;
+    }
+
+    private DashboardPage getDashboardPage() {
+        if (dashboardPage == null) {
+            dashboardPage = new DashboardPage(Hooks.getDriver());
+        }
+        return dashboardPage;
     }
 
     @Given("user sudah login sebagai pelajar")
     public void userAlreadyLoginAsStudent() {
-        loginPage.open(baseUrl);
-        loginPage.login("satria@example.com", "Kitten026");
-        loginPage.waitForDashboard();
+        getLoginPage().open(TestConfig.BASE_URL);
+        getLoginPage().login("satria@example.com", "Kitten026");
+        getDashboardPage().waitForDashboard();
     }
 
     @When("user membuka menu akun")
     public void userOpenAccountMenu() {
-        loginPage.openUserMenu();
+        getDashboardPage().openUserMenu();
     }
 
     @And("user menekan tombol Keluar")
     public void userClickLogout() {
-        loginPage.logout();
+        getDashboardPage().logout();
     }
 
     @Then("user kembali ke halaman login")
     public void userBackToLoginPage() {
-        Assert.assertTrue(loginPage.isLoginFormVisible());
+        Assert.assertTrue(getLoginPage().isLoginFormVisible());
     }
 }

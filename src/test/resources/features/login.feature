@@ -1,9 +1,14 @@
 Feature: Login
 
-  @Farras
-  Scenario: Login valid
-    Given user berada di halaman login
-    When user login dengan email "farras" dan password "farras"
+  @1.2.1 @Farras
+  Scenario: Login valid sebagai Pelajar
+    Given user belum login
+    And user membuka alamat situs JTK Learn
+    And tersedia akun pelajar terdaftar
+    When user mengisi field Email dengan email pelajar valid "farras"
+    And user mengisi field Kata Sandi dengan password yang benar "farras"
+    And user klik tombol "Masuk"
+    And user cek header navigasi
     Then dashboard tampil dengan navbar yang berisi menu utama dan nama akun
 
   @TC-1.2.2 @Nieto @Login
