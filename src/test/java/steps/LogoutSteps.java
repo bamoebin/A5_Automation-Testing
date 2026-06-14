@@ -29,24 +29,24 @@ public class LogoutSteps {
         return dashboardPage;
     }
 
-    @Given("user sudah login sebagai pelajar")
+    @Given("User sudah login dengan role Pelajar")
     public void userAlreadyLoginAsStudent() {
         getLoginPage().open(TestConfig.BASE_URL);
         getLoginPage().login("satria@example.com", "Kitten026");
         getDashboardPage().waitForDashboard();
     }
 
-    @When("user membuka menu akun")
+    @When("User menekan drop down Nama Akun")
     public void userOpenAccountMenu() {
         getDashboardPage().openUserMenu();
     }
 
-    @And("user menekan tombol Keluar")
+    @And("User menekan tombol \"Keluar\"")
     public void userClickLogout() {
         getDashboardPage().logout();
     }
 
-    @Then("user kembali ke halaman login")
+    @Then("User kembali ke halaman login")
     public void userBackToLoginPage() {
         Assert.assertTrue(getLoginPage().isLoginFormVisible());
     }

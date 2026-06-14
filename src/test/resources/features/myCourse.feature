@@ -10,11 +10,12 @@ Feature: Kursus Saya
     Then halaman Tab Dalam Progres menampilkan pesan "Belum ada kursus yang sedang dijalani"
 
   @TC-FR05-04 @Satria
-  Scenario: Tab Selesai kosong
-    Given user sudah login sebagai pelajar untuk melihat tab selesai
-    When user membuka menu Kursus Saya
-    And user membuka tab Selesai
-    Then muncul pesan kosong kursus selesai
+  Scenario: Verifikasi pesan 'Belum ada kursus yang selesai' tampil pada Tab Selesai
+    Given User sudah login dengan role Pelajar
+    And Belum ada kursus yang progressnya 100%
+    When Klik menu "Kursus Saya" pada navigasi
+    And Klik Tab "Selesai"
+    Then Halaman Tab Selesai menampilkan pesan: 'Belum ada kursus yang selesai'
 
   @TC-FR05-03 @Nieto @MyCourse
   Scenario: Verifikasi tampilan kartu kursus dengan Progress Bar sebagian (1–99%) pada Tab Dalam Progres

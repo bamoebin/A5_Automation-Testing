@@ -1,8 +1,8 @@
 Feature: Logout
 
   @logout @Satria
-  Scenario: Logout pelajar
-    Given user sudah login sebagai pelajar
-    When user membuka menu akun
-    And user menekan tombol Keluar
-    Then user kembali ke halaman login
+  Scenario: Melakukan logout untuk sesi Pelajar
+    Given User sudah login dengan role Pelajar
+    When User menekan drop down Nama Akun
+    And User menekan tombol "Keluar"
+    Then User kembali ke halaman login

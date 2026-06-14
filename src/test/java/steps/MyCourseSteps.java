@@ -96,25 +96,23 @@ public class MyCourseSteps {
      * ============================================================
      */
 
-    @Given("user sudah login sebagai pelajar untuk melihat tab selesai")
-    public void userAlreadyLoginAsStudentForCompletedTab() {
-        getLoginPage().open(TestConfig.BASE_URL);
-        getLoginPage().login("satria@example.com", "Kitten026");
-        getDashboardPage().waitForDashboard();
+    @And("Belum ada kursus yang progressnya 100%")
+    public void noCoursesWith100PercentProgress() {
+        // Precondition: diasumsikan kondisi data sudah terpenuhi
     }
 
-    @When("user membuka menu Kursus Saya")
-    public void openMyCourseMenu() {
+    @When("Klik menu \"Kursus Saya\" pada navigasi")
+    public void clickMenuKursusSayaNavigasi() {
         getMyCoursePage().openMyCourse();
     }
 
-    @When("user membuka tab Selesai")
-    public void openCompletedTab() {
+    @And("Klik Tab \"Selesai\"")
+    public void clickTabSelesai() {
         getMyCoursePage().openCompletedTab();
     }
 
-    @Then("muncul pesan kosong kursus selesai")
-    public void verifyCompletedEmptyMessage() {
+    @Then("Halaman Tab Selesai menampilkan pesan: 'Belum ada kursus yang selesai'")
+    public void verifyHalamanTabSelesaiPesan() {
         Assert.assertEquals(
             "Belum ada kursus yang selesai.",
             getMyCoursePage().getCompletedEmptyMessage()
