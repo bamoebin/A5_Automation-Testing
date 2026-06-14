@@ -8,34 +8,34 @@ import java.util.ArrayList;
 import java.util.List;
 import org.junit.Assert;
 import org.openqa.selenium.WebDriver;
-import pages.DashboardPage;
-import pages.LoginPage;
-import pages.MyCoursePage;
+import test_methods.DashboardTestMethod;
+import test_methods.LoginTestMethod;
+import test_methods.MyCourseTestMethod;
 import utils.TestConfig;
 
 public class MyCourseSteps {
 
-    private LoginPage loginPage;
-    private DashboardPage dashboardPage;
-    private MyCoursePage myCoursePage;
+    private LoginTestMethod loginPage;
+    private DashboardTestMethod dashboardPage;
+    private MyCourseTestMethod myCoursePage;
 
-    private LoginPage getLoginPage() {
+    private LoginTestMethod getLoginPage() {
         if (loginPage == null) {
-            loginPage = new LoginPage(Hooks.getDriver());
+            loginPage = new LoginTestMethod(Hooks.getDriver());
         }
         return loginPage;
     }
 
-    private DashboardPage getDashboardPage() {
+    private DashboardTestMethod getDashboardPage() {
         if (dashboardPage == null) {
-            dashboardPage = new DashboardPage(Hooks.getDriver());
+            dashboardPage = new DashboardTestMethod(Hooks.getDriver());
         }
         return dashboardPage;
     }
 
-    private MyCoursePage getMyCoursePage() {
+    private MyCourseTestMethod getMyCoursePage() {
         if (myCoursePage == null) {
-            myCoursePage = new MyCoursePage(Hooks.getDriver());
+            myCoursePage = new MyCourseTestMethod(Hooks.getDriver());
         }
         return myCoursePage;
     }

@@ -6,25 +6,25 @@ import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import org.junit.Assert;
 import org.openqa.selenium.WebDriver;
-import pages.DashboardPage;
-import pages.LoginPage;
+import test_methods.DashboardTestMethod;
+import test_methods.LoginTestMethod;
 import utils.TestConfig;
 
 public class LogoutSteps {
 
-    private LoginPage loginPage;
-    private DashboardPage dashboardPage;
+    private LoginTestMethod loginPage;
+    private DashboardTestMethod dashboardPage;
 
-    private LoginPage getLoginPage() {
+    private LoginTestMethod getLoginPage() {
         if (loginPage == null) {
-            loginPage = new LoginPage(Hooks.getDriver());
+            loginPage = new LoginTestMethod(Hooks.getDriver());
         }
         return loginPage;
     }
 
-    private DashboardPage getDashboardPage() {
+    private DashboardTestMethod getDashboardPage() {
         if (dashboardPage == null) {
-            dashboardPage = new DashboardPage(Hooks.getDriver());
+            dashboardPage = new DashboardTestMethod(Hooks.getDriver());
         }
         return dashboardPage;
     }
