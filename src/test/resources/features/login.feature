@@ -5,8 +5,8 @@ Feature: Login
     Given user belum login
     And user membuka alamat situs JTK Learn
     And tersedia akun pelajar terdaftar
-    When user mengisi field Email dengan email pelajar valid "farras"
-    And user mengisi field Kata Sandi dengan password yang benar "farras"
+    When user mengisi field Email dengan email pelajar valid "farras@example.com"
+    And user mengisi field Kata Sandi dengan password yang benar "bamoebin123"
     And user klik tombol "Masuk"
     And user cek header navigasi
     Then dashboard tampil dengan navbar yang berisi menu utama dan nama akun

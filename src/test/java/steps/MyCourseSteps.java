@@ -55,7 +55,7 @@ public class MyCourseSteps {
     @Given("pengguna berhasil login sebagai Pelajar dengan akun farras")
     public void userLoginSebagaiPelajarFarras() {
         getLoginPage().open(TestConfig.BASE_URL);
-        getLoginPage().login("farras", "farras");
+        getLoginPage().login("farras@example.com", "bamoebin123");
         getDashboardPage().waitForDashboard();
     }
 
@@ -238,7 +238,7 @@ public class MyCourseSteps {
     @Given("user sudah login")
     public void userAlreadyLogin() {
         getLoginPage().open(TestConfig.BASE_URL);
-        getLoginPage().login("farras", "farras");
+        getLoginPage().login("farras@example.com", "bamoebin123");
         getDashboardPage().waitForDashboard();
     }
 
